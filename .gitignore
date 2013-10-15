@@ -1,0 +1,4 @@
+.idea/
+*.iml
+*.properties
+gen/
