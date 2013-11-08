@@ -9,9 +9,12 @@ import com.bradleege.tilesource.MapBoxTileSource;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.PathOverlay;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,6 +44,14 @@ public class BikeMapBoxActivity extends Activity
 
         // Load The Route
         new LoadRouteOntoMapTask().execute();
+
+        // Load UW Arboretum Marker
+        ArrayList<OverlayItem> overlayItemArray = new ArrayList<OverlayItem>();
+        OverlayItem arbMarker = new OverlayItem("UW Arboretum", "Fields, Trees, Abandoned City, etc", new GeoPoint(43.04277119900874, -89.42544529724121));
+        overlayItemArray.add(arbMarker);
+        DefaultResourceProxyImpl defaultResourceProxyImpl = new DefaultResourceProxyImpl(this);
+        ItemizedIconOverlay<OverlayItem> myItemizedIconOverlay  = new ItemizedIconOverlay<OverlayItem>(overlayItemArray, null, defaultResourceProxyImpl);
+        mapView.getOverlays().add(myItemizedIconOverlay);
     }
 
     private class LoadRouteOntoMapTask extends AsyncTask<Void, Void, ArrayList<GeoPoint>>
@@ -95,7 +106,7 @@ public class BikeMapBoxActivity extends Activity
             {
                 myPath.addPoint(gp);
             }
-            mapView.getOverlays().add(myPath);
+            mapView.getOverlays().add(0, myPath);
         }
     }
 }
