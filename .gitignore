@@ -2,3 +2,5 @@
 *.iml
 *.properties
 gen/
+build/
+
