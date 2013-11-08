@@ -12,15 +12,31 @@ import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 
 public class MapBoxTileSource extends OnlineTileSourceBase
 {
-    public MapBoxTileSource(String aName, ResourceProxy.string aResourceId, int aZoomMinLevel, int aZoomMaxLevel, int aTileSizePixels, String aImageFilenameEnding, String... aBaseUrl)
+    private String mapBoxMapId = null;
+
+
+    public MapBoxTileSource(String aName, ResourceProxy.string aResourceId, int aZoomMinLevel, int aZoomMaxLevel, int aTileSizePixels, String aImageFilenameEnding, String mapBoxMapId, String... aBaseUrl)
     {
-        super(aName, aResourceId, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels, aImageFilenameEnding, aBaseUrl);
+        super(aName, aResourceId, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels, aImageFilenameEnding, "http://api.tiles.mapbox.com/v3/");
+        this.mapBoxMapId = mapBoxMapId;
+    }
+
+    public String getMapBoxMapId()
+    {
+        return mapBoxMapId;
+    }
+
+    public void setMapBoxMapId(String mapBoxMapId)
+    {
+        this.mapBoxMapId = mapBoxMapId;
     }
 
     @Override
     public String getTileURLString(MapTile mapTile)
     {
-        StringBuffer url = new StringBuffer("http://api.tiles.mapbox.com/v3/bleege.map-3a5gfw2p/");
+        StringBuffer url = new StringBuffer(getBaseUrl());
+        url.append(getMapBoxMapId());
+        url.append("/");
         url.append(mapTile.getZoomLevel());
         url.append("/");
         url.append(mapTile.getX());
