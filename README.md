@@ -9,6 +9,7 @@ Change Log
 - 9-Nov-2013
 	- Added support for [MapBox Markers](https://www.mapbox.com/blog/markers/)
     	- Supports "Retina Display" (ie dpi > 300)
+
 **Initial Release**
 ![MapBox Hosted Map Support](//launch-screenshot.png)
 **MapBox Marker Support**
