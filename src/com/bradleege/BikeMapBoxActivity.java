@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import com.bradleege.markers.MapBoxMarker;
 import com.bradleege.tilesource.MapBoxTileSource;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,7 +48,13 @@ public class BikeMapBoxActivity extends Activity
 
         // Load UW Arboretum Marker
         ArrayList<OverlayItem> overlayItemArray = new ArrayList<OverlayItem>();
-        OverlayItem arbMarker = new OverlayItem("UW Arboretum", "Fields, Trees, Abandoned City, etc", new GeoPoint(43.04277119900874, -89.42544529724121));
+
+		// Stock OSMDroid Marker
+        //OverlayItem arbMarker = new OverlayItem("UW Arboretum", "Fields, Trees, Abandoned City, etc", new GeoPoint(43.04277119900874, -89.42544529724121));
+
+		// MapBox Marker Support
+		MapBoxMarker arbMarker = new MapBoxMarker("UW Arboretum", "Fields and Trees", new GeoPoint(43.04277119900874, -89.42544529724121), null, null, null, getResources());
+
         overlayItemArray.add(arbMarker);
         DefaultResourceProxyImpl defaultResourceProxyImpl = new DefaultResourceProxyImpl(this);
         ItemizedIconOverlay<OverlayItem> myItemizedIconOverlay  = new ItemizedIconOverlay<OverlayItem>(overlayItemArray, null, defaultResourceProxyImpl);
