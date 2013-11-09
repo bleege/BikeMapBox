@@ -8,7 +8,8 @@ Change Log
 	- Load MapBox map tiles via MapBoxTileSource
 - 9-Nov-2013
 	- Added support for [MapBox Markers](https://www.mapbox.com/blog/markers/)
-
+    	- Supports "Retina Display" (ie dpi > 300)
+**Initial Release**
 ![MapBox Hosted Map Support](//launch-screenshot.png)
-
-![MapBox Marker Support](//20131109-mapbox-marker-support.png)
+**MapBox Marker Support**
+![MapBox Marker Support](//launch-screenshot-mapbox-marker-support.png)
