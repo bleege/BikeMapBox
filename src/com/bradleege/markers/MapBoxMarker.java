@@ -32,6 +32,7 @@ public class MapBoxMarker extends OverlayItem
 	{
 		super(aTitle, aSnippet, aGeoPoint);
 
+		// Symbol Names From Maki Project - https://www.mapbox.com/maki/
 		if (symbolName != null)
 		{
 			this.symbolName = symbolName;
