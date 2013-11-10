@@ -43,26 +43,33 @@ public class BikeMapBoxActivity extends Activity
         mapView.setMultiTouchControls(true);
         mapView.getController().setZoom(14);
         mapView.getController().setCenter(new GeoPoint(43.05277119900874, -89.42244529724121));
-
-        // Load The Route
-        new LoadRouteOntoMapTask().execute();
-
-        // Load UW Arboretum Marker
-        ArrayList<OverlayItem> overlayItemArray = new ArrayList<OverlayItem>();
-
-		// Stock OSMDroid Marker
-        //OverlayItem arbMarker = new OverlayItem("UW Arboretum", "Fields, Trees, Abandoned City, etc", new GeoPoint(43.04277119900874, -89.42544529724121));
-
-		// MapBox Marker Support
-		MapBoxMarker arbMarker = new MapBoxMarker("UW Arboretum", "Fields and Trees", new GeoPoint(43.04277119900874, -89.42544529724121), "park", null, MapBoxMarkerSize.LARGE, getResources());
-
-        overlayItemArray.add(arbMarker);
-        DefaultResourceProxyImpl defaultResourceProxyImpl = new DefaultResourceProxyImpl(this);
-        ItemizedIconOverlay<OverlayItem> myItemizedIconOverlay  = new ItemizedIconOverlay<OverlayItem>(overlayItemArray, null, defaultResourceProxyImpl);
-        mapView.getOverlays().add(myItemizedIconOverlay);
     }
 
-    private class LoadRouteOntoMapTask extends AsyncTask<Void, Void, ArrayList<GeoPoint>>
+	@Override
+	protected void onStart()
+	{
+		super.onStart();
+		// Load The Route
+		new LoadRouteOntoMapTask().execute();
+
+		// Load UW Arboretum Marker
+
+		// Stock OSMDroid Marker
+		//OverlayItem arbMarker = new OverlayItem("UW Arboretum", "Fields, Trees, Abandoned City, etc", new GeoPoint(43.04277119900874, -89.42544529724121));
+
+		// MapBox Marker Support
+		MapBoxMarker arbMarker = new MapBoxMarker("UW Arboretum", "Fields and Trees", new GeoPoint(43.038673562216715, -89.42789554595947), "park", null, MapBoxMarkerSize.LARGE, getResources(), mapView);
+		MapBoxMarker vilasMarker = new MapBoxMarker("Vilas Park", "Skating Rink, Sports Fields, Zoo", new GeoPoint(43.05519612238735, -89.41253185272217), "park", null, MapBoxMarkerSize.LARGE, getResources(), mapView);
+
+		DefaultResourceProxyImpl defaultResourceProxyImpl = new DefaultResourceProxyImpl(this);
+		ItemizedIconOverlay<OverlayItem> myItemizedIconOverlay  = new ItemizedIconOverlay<OverlayItem>(new ArrayList<OverlayItem>(), null, defaultResourceProxyImpl);
+		myItemizedIconOverlay.addItem(arbMarker);
+		myItemizedIconOverlay.addItem(vilasMarker);
+
+		mapView.getOverlays().add(myItemizedIconOverlay);
+	}
+
+	private class LoadRouteOntoMapTask extends AsyncTask<Void, Void, ArrayList<GeoPoint>>
     {
         @Override
         protected ArrayList<GeoPoint> doInBackground(Void... params)
