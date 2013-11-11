@@ -14,12 +14,50 @@ public class MapBoxTileSource extends OnlineTileSourceBase
 {
     private String mapBoxMapId = null;
 
+	private static String mapBoxBaseUrl = "http://api.tiles.mapbox.com/v3/";
 
-    public MapBoxTileSource(String aName, ResourceProxy.string aResourceId, int aZoomMinLevel, int aZoomMaxLevel, int aTileSizePixels, String aImageFilenameEnding, String mapBoxMapId, String... aBaseUrl)
+	/**
+	 * TileSource with configuration defaults set.
+	 * @param mapBoxMapId MapBox Map Id
+	 */
+	public MapBoxTileSource(String mapBoxMapId)
+	{
+		super("mbtiles", ResourceProxy.string.base, 1, 20, 256, ".png");
+		this.mapBoxMapId = mapBoxMapId;
+	}
+
+	/**
+	 * TileSource allowing majority of options (sans url) to be user selected.
+	 * @param name Name
+	 * @param resourceId Resource Id
+	 * @param zoomMinLevel Minimum Zoom Level
+	 * @param zoomMaxLevel Maximum Zoom Level
+	 * @param tileSizePixels Size of Tile Pixels
+	 * @param imageFilenameEnding Image File Extension
+	 * @param mapBoxMapId MapBox Map Id
+	 */
+	public MapBoxTileSource(String name, ResourceProxy.string resourceId, int zoomMinLevel, int zoomMaxLevel, int tileSizePixels, String imageFilenameEnding, String mapBoxMapId)
     {
-        super(aName, aResourceId, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels, aImageFilenameEnding, "http://api.tiles.mapbox.com/v3/");
+        super(name, resourceId, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding, mapBoxBaseUrl);
         this.mapBoxMapId = mapBoxMapId;
     }
+
+	/**
+	 * TileSource allowing all options to be user selected.
+	 * @param name Name
+	 * @param resourceId Resource Id
+	 * @param zoomMinLevel Minimum Zoom Level
+	 * @param zoomMaxLevel Maximum Zoom Level
+	 * @param tileSizePixels Size of Tile Pixels
+	 * @param imageFilenameEnding Image File Extension
+	 * @param mapBoxMapId MapBox Map Id
+	 * @param mapBoxVersionBaseUrl MapBox Version Base Url @see https://www.mapbox.com/developers/api/#Versions
+	 */
+	public MapBoxTileSource(String name, ResourceProxy.string resourceId, int zoomMinLevel, int zoomMaxLevel, int tileSizePixels, String imageFilenameEnding, String mapBoxMapId, String mapBoxVersionBaseUrl)
+	{
+		super(name, resourceId, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding, mapBoxVersionBaseUrl);
+		this.mapBoxMapId = mapBoxMapId;
+	}
 
     public String getMapBoxMapId()
     {
