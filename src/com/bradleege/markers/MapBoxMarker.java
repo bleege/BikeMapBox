@@ -12,6 +12,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -30,15 +33,13 @@ public class MapBoxMarker extends OverlayItem
 	private String colorHex;
 	private MapBoxMarkerSize mapBoxMarkerSize;
 	private Resources resources;
+	private Handler callbackHandler;
 
-	private MapView mapView;
-
-	public MapBoxMarker(String aTitle, String aSnippet, GeoPoint aGeoPoint, String symbolName, String colorHex, MapBoxMarkerSize markerSize, Resources resources, MapView theMap)
+	public MapBoxMarker(String aTitle, String aSnippet, GeoPoint aGeoPoint, String symbolName, String colorHex, MapBoxMarkerSize markerSize, Resources resources, Handler callbackHandler)
 	{
 		super(aTitle, aSnippet, aGeoPoint);
 
-		// TODO - Implement Event Listener for redrawing mapView instead of hardwiring reference into each marker
-		this.mapView = theMap;
+		this.callbackHandler = callbackHandler;
 
 		// Symbol Names From Maki Project - https://www.mapbox.com/maki/
 		if (symbolName != null)
@@ -90,8 +91,6 @@ public class MapBoxMarker extends OverlayItem
 		{
 			new DownloadMarkerTask().execute(url);
 		}
-
-		new DownloadMarkerTask().execute(url);
 	}
 
 	private class DownloadMarkerTask extends AsyncTask<String, Void, byte[]>
@@ -142,8 +141,11 @@ public class MapBoxMarker extends OverlayItem
 				MapBoxMarkerCache.getInstance().add(url, d);
 			}
 
-			// Force the map to redraw the new marker
-			mapView.invalidate();
+			Message message = Message.obtain();
+			Bundle bundle = new Bundle();
+			bundle.putInt("MARKERLOADED", 1);
+			message.setData(bundle);
+			callbackHandler.sendMessage(message);
 		}
 	}
 }

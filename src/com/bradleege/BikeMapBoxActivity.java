@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import com.bradleege.markers.MapBoxMarker;
 import com.bradleege.markers.MapBoxMarkerSize;
@@ -12,7 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 public class BikeMapBoxActivity extends Activity
 {
     private MapView mapView = null;
+	private Handler handler = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -44,6 +46,16 @@ public class BikeMapBoxActivity extends Activity
         mapView.setMultiTouchControls(true);
         mapView.getController().setZoom(14);
         mapView.getController().setCenter(new GeoPoint(43.05277119900874, -89.42244529724121));
+
+		handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg)
+			{
+				super.handleMessage(msg);
+				Log.i(getClass().getCanonicalName(), String.format("handler.handleMessage() called. Marker Loaded Key? = %s", msg.getData().containsKey("MARKERLOADED")));
+				mapView.invalidate();
+			}
+		};
     }
 
 	@Override
@@ -59,8 +71,8 @@ public class BikeMapBoxActivity extends Activity
 		//OverlayItem arbMarker = new OverlayItem("UW Arboretum", "Fields, Trees, Abandoned City, etc", new GeoPoint(43.04277119900874, -89.42544529724121));
 
 		// MapBox Marker Support
-		MapBoxMarker arbMarker = new MapBoxMarker("UW Arboretum", "Fields and Trees", new GeoPoint(43.038673562216715, -89.42789554595947), "park", null, MapBoxMarkerSize.LARGE, getResources(), mapView);
-		MapBoxMarker vilasMarker = new MapBoxMarker("Vilas Park", "Skating Rink, Sports Fields, Zoo", new GeoPoint(43.05519612238735, -89.41253185272217), "park", null, MapBoxMarkerSize.LARGE, getResources(), mapView);
+		MapBoxMarker arbMarker = new MapBoxMarker("UW Arboretum", "Fields and Trees", new GeoPoint(43.038673562216715, -89.42789554595947), "park", null, MapBoxMarkerSize.LARGE, getResources(), handler);
+		MapBoxMarker vilasMarker = new MapBoxMarker("Vilas Park", "Skating Rink, Sports Fields, Zoo", new GeoPoint(43.05519612238735, -89.41253185272217), "park", null, MapBoxMarkerSize.LARGE, getResources(), handler);
 
 		DefaultResourceProxyImpl defaultResourceProxyImpl = new DefaultResourceProxyImpl(this);
 		ItemizedIconOverlay<OverlayItem> myItemizedIconOverlay  = new ItemizedIconOverlay<OverlayItem>(new ArrayList<OverlayItem>(), null, defaultResourceProxyImpl);
