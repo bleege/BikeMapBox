@@ -38,7 +38,8 @@ public class BikeMapBoxActivity extends Activity
 
         // Setup MapBox As Provider
 //        MapBoxTileSource mapBoxTileSource = new MapBoxTileSource("mbtiles", ResourceProxy.string.base, 1, 20, 256, ".png", "bleege.map-3a5gfw2p");
-		MapBoxTileSource mapBoxTileSource = new MapBoxTileSource("bleege.map-3a5gfw2p");
+		MapBoxTileSource.retrieveMapBoxMapId(this);
+		MapBoxTileSource mapBoxTileSource = new MapBoxTileSource();
 
         // Interact With the MapView
         mapView = (MapView)findViewById(R.id.mapview);

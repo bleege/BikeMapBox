@@ -18,5 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <meta-data android:name="MAPBOX_MAPID" android:value="bleege.map-3a5gfw2p"/>
     </application>
 </manifest>
